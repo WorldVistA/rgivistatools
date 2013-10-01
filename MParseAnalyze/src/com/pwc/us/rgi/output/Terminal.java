@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class Terminal {
@@ -80,6 +81,19 @@ public abstract class Terminal {
 		this.writeEOL();		
 	}
 
+	public void writeJSONFormatted(String title, Collection<String> dataList) throws IOException {
+		this.write("\"" + this.tf.startList(title) + "\":");
+		this.writeEOL("[");
+		Iterator<String> iter = dataList.iterator();
+		while(iter.hasNext()){
+			this.write("\"" + iter.next() +"\"");
+			if (iter.hasNext()){
+				this.write(",");
+			}
+			this.writeEOL("");
+		}
+		this.write("]");		
+	}	
 	public void writeSortedFormatted(String title, Collection<String> dataList) throws IOException {
 		List<String> sorted = new ArrayList<String>(dataList);
 		Collections.sort(sorted);		
